@@ -1,5 +1,5 @@
 #include "xoxomove.h"
-
+#include <sstream>
 
 Move::Move() : col(0), row(0) {
 }
@@ -14,10 +14,9 @@ Move::Move(char* move) : col(move[0] - '0'), row(move[1] - '0') {
 }
 
 std::string Move::ToString() const {
-    std::string result("");
-    result.push_back(row + '0');
-    result.push_back(col + '0');
-    return result;
+    std::ostringstream strout;
+    strout << row << col;
+    return strout.str();
 }
 
 size_t strlen(const char* str) {

@@ -1,0 +1,35 @@
+CC = gcc
+CXXFLAGS = -O2 -std=c++14
+CFLAGS = -O2
+LDFLAGS = -lstdc++ -lpthread -lm -ldl
+OUT = XOXO
+OBJDIR = obj
+BINDIR = bin
+
+all: directories $(OUT)
+
+directories: $(OBJDIR) $(BINDIR)
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
+$(BINDIR):
+	mkdir -p $(BINDIR)
+
+$(OUT): game.o move.o knowledge.o sqlite3.o main.o
+	$(CC) $(OBJDIR)/main.o $(OBJDIR)/game.o $(OBJDIR)/move.o $(OBJDIR)/knowledge.o $(OBJDIR)/sqlite3.o -o $(BINDIR)/$(OUT) $(LDFLAGS)
+
+sqlite3.o: sqlite/sqlite3.c
+	$(CC) -c sqlite/sqlite3.c $(CFLAGS) -o $(OBJDIR)/sqlite3.o
+
+game.o: xoxogame.cpp
+	$(CC) -c xoxogame.cpp $(CXXFLAGS) -o $(OBJDIR)/game.o
+
+move.o: xoxomove.cpp
+	$(CC) -c xoxomove.cpp $(CXXFLAGS) -o $(OBJDIR)/move.o
+
+knowledge.o: xoxoknowledge.cpp
+	$(CC) -c xoxoknowledge.cpp $(CXXFLAGS) -o $(OBJDIR)/knowledge.o
+
+main.o: main.cpp
+	$(CC) -c main.cpp $(CXXFLAGS) -o $(OBJDIR)/main.o

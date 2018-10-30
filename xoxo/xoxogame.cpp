@@ -140,10 +140,6 @@ void Game::DoMove(const std::string move, int value) {
     }
     db.RegisterGamePosition(this->ToString(), value);
     db.RegisterPosition(this->ToString(), value);
-    if (is_verbose) {
-        std::cout << "\r\n";
-        PrintBoard();
-    }
 }
 
 const std::string Game::DoMove() {

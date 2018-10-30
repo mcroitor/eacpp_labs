@@ -8,12 +8,13 @@ enum GAME_RESULT {
 };
 
 class Knowledge{
+    std::string _dbname;
     sqlite3* db;
     sqlite3_stmt* stmt;
     
     void do_query(const char*);
 public:
-    Knowledge();
+    Knowledge(std::string = "learning.sqlite");
     ~Knowledge();
     
     void ResetGame();
@@ -26,6 +27,7 @@ public:
     void Reset();
     void GetStatistic(int&, int&, int&);
     void ClearStatistic();
+    std::string GetDBName() const;
 };
 
 #endif /* XOXOKNOWLEDGE_H */

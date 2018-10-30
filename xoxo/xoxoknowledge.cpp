@@ -26,8 +26,8 @@ void Knowledge::do_query(const char* query) {
     sqlite3_finalize(stmt);
 }
 
-Knowledge::Knowledge() {
-    sqlite3_open("learning.sqlite", &db);
+Knowledge::Knowledge(std::string dbname) : _dbname(dbname) {
+    sqlite3_open(_dbname.c_str(), &db);
     // create positions if not exists
     do_query("CREATE TABLE IF NOT EXISTS positions (position TEXT UNIQUE, value INT)");
     do_query("CREATE TABLE IF NOT EXISTS game (position TEXT UNIQUE, value INT)");
@@ -151,4 +151,8 @@ void Knowledge::GetStatistic(int& x, int& o, int& d) {
 
 void Knowledge::ClearStatistic() {
     do_query("DELETE FROM result");
+}
+
+std::string Knowledge::GetDBName() const{
+    return _dbname;
 }

@@ -14,6 +14,7 @@ void print_help() {
     std::cout << "\tstart\t\t- start new game" << std::endl;
     std::cout << "\tgo\t\t- force computer move" << std::endl;
     std::cout << "\tboard\t\t- print board" << std::endl;
+    std::cout << "\tverbose [on|off]\t\t- enable / disable print board after each move" << std::endl;
     std::cout << "\tauto [n]\t- self play, n games, implicitly 1" << std::endl;
     std::cout << "\t<r><c>\t\t- make move, <r> - row, <c> - column" << std::endl;
     std::cout << "\tstat\t\t- get statistics" << std::endl;
@@ -43,6 +44,16 @@ int main(int argc, char** argv) {
             print_help();
         } else if (command == "board") {
             game.PrintBoard();
+        } else if (command == "verbose") {
+            if (tokens[1] == "on") {
+                game.Verbose(true);
+            } else {
+                if (tokens[1] == "off") {
+                    game.Verbose(false);
+                } else {
+                    std::cout << "unknown verbose mode! on or off?!" << std::endl;
+                }
+            }
         } else if (command == "stat") {
             game.PrintStat();
         } else if (command == "reset") {
@@ -62,8 +73,12 @@ int main(int argc, char** argv) {
                 game.NewGame();
                 //game.PrintBoard();
                 while (game.Result() == NO_RESULT) {
-                    std::cout << "move: " << game.DoMove() << std::endl;
-                    //game.PrintBoard();
+                    std::string move = game.DoMove();
+                    if (game.IsVerbose()) {
+                        std::cout << "move: " << move << std::endl;
+                        std::cout << "\r\n";
+                        game.PrintBoard();
+                    }
                 }
                 if (game.Result() == XWIN) {
                     std::cout << "X wins!" << std::endl;
@@ -79,7 +94,12 @@ int main(int argc, char** argv) {
             }
         } else if (command == "go") {
             if (game.Result() == NO_RESULT) {
-                std::cout << "move: " << game.DoMove() << std::endl;
+                std::string move = game.DoMove();
+                if (game.IsVerbose()) {
+                    std::cout << "move: " << move << std::endl;
+                    std::cout << "\r\n";
+                    game.PrintBoard();
+                }
                 if (game.Result() == XWIN) {
                     std::cout << "X wins!" << std::endl;
                 } else if (game.Result() == OWIN) {
@@ -95,10 +115,15 @@ int main(int argc, char** argv) {
                 }
                 game.Update();
             }
-        } else if (is_move(command.c_str()) && game.CanDoMove(command.c_str())) {
-            game.DoMove(command.c_str(), 0);
+        } else if (is_move(command.c_str()) && game.CanDoMove(command)) {
+            game.DoMove(command, 0);
             if (game.Result() == NO_RESULT) {
-                std::cout << "move: " << game.DoMove() << std::endl;
+                std::string move = game.DoMove();
+                if (game.IsVerbose()) {
+                    std::cout << "move: " << move << std::endl;
+                    std::cout << "\r\n";
+                    game.PrintBoard();
+                }
                 if (game.Result() == XWIN) {
                     std::cout << "X wins!" << std::endl;
                     game.Update();

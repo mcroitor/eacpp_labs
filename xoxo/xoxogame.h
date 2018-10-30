@@ -18,6 +18,7 @@ extern std::ofstream fout;
 class Game {    
     char board[3][3];
     bool is_x_move;
+    bool is_verbose;
     Knowledge db;
 
     bool Check(int r, int c) const;
@@ -29,15 +30,17 @@ public:
 
     void NewGame();    
     void GenerateMoves(std::deque<eval_move>& );
-    bool CanDoMove(const char* ) const;
+    bool CanDoMove(const std::string ) const;
     GAME_RESULT Result() const;
-    void DoMove(const char* , int );
-    const char* DoMove();
+    void DoMove(const std::string , int );
+    const std::string DoMove();
     void PrintBoard() const;
     std::string ToString() const;
     void PrintStat();
     void Reset();
     void Update();
+    void Verbose(bool);
+    bool IsVerbose() const;
 };
 
 #endif /* XOXOGAME_H */

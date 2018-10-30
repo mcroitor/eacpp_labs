@@ -14,7 +14,7 @@ bool Game::Check(int r, int c) const {
     return tmp == board[r][c];
 }
 
-Game::Game() {
+Game::Game(): is_verbose(false) {
     srand(time(NULL));
     NewGame();
 }
@@ -70,7 +70,7 @@ void Game::GenerateMoves(std::deque<eval_move>& moves) {
     }
 }
 
-bool Game::CanDoMove(const char* move) const {
+bool Game::CanDoMove(const std::string move) const {
     int r = move[0] - '0';
     int c = move[1] - '0';
     return board[r][c] == '_';
@@ -115,7 +115,7 @@ GAME_RESULT Game::Result() const {
     return DRAW;
 }
 
-void Game::DoMove(const char* move, int value) {
+void Game::DoMove(const std::string move, int value) {
 #ifdef DEBUG
     fout << "debug >> DoMove: move "
             << move << " in position "
@@ -129,9 +129,13 @@ void Game::DoMove(const char* move, int value) {
     }
     db.RegisterGamePosition(this->ToString(), value);
     db.RegisterPosition(this->ToString(), value);
+    if(is_verbose){
+        std::cout << "\r\n";
+        PrintBoard();
+    }
 }
 
-const char* Game::DoMove() {
+const std::string Game::DoMove() {
     std::deque<eval_move> emoves;
     // generate moves
     GenerateMoves(emoves);
@@ -151,9 +155,8 @@ const char* Game::DoMove() {
 #endif
     // select a move randomly.
     int best_move = rand() % emoves.size();
-    DoMove(emoves[best_move].first.ToString().c_str(), emoves[best_move].second);
-
-    return emoves[best_move].first.ToString().c_str();
+    DoMove(emoves[best_move].first.ToString(), emoves[best_move].second);
+    return emoves[best_move].first.ToString();
 }
 
 void Game::PrintBoard() const {
@@ -195,4 +198,12 @@ void Game::PrintStat() {
 
 void Game::Reset() {
     db.Reset();
+}
+
+void Game::Verbose(bool v){
+    is_verbose = v;
+}
+
+bool Game::IsVerbose() const{
+    return is_verbose;
 }

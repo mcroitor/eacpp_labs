@@ -3,6 +3,7 @@
 
 #include <string>
 #include <deque>
+#include <cstdint>
 
 #include "xoxoknowledge.h"
 #include "xoxomove.h"
@@ -14,9 +15,10 @@
 extern std::ofstream fout;
 #endif
 
+const std::size_t BOARD_SIZE = 3;
 
 class Game {    
-    char board[3][3];
+    char board[BOARD_SIZE][BOARD_SIZE];
     bool is_x_move;
     bool is_verbose;
     Knowledge db;

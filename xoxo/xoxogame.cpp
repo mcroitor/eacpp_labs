@@ -14,7 +14,7 @@ bool Game::Check(int r, int c) const {
     return tmp == board[r][c];
 }
 
-Game::Game(): is_verbose(false) {
+Game::Game() : is_verbose(false) {
     srand(time(NULL));
     NewGame();
 }
@@ -24,8 +24,8 @@ Game::~Game() {
 
 void Game::Init() {
     int i, j;
-    for (i = 0; i != 3; ++i) {
-        for (j = 0; j != 3; ++j) {
+    for (i = 0; i != BOARD_SIZE; ++i) {
+        for (j = 0; j != BOARD_SIZE; ++j) {
             board[i][j] = '_';
         }
     }
@@ -44,8 +44,8 @@ void Game::NewGame() {
 void Game::GenerateMoves(std::deque<eval_move>& moves) {
     int i, j;
     int value;
-    for (i = 0; i != 3; ++i) {
-        for (j = 0; j != 3; ++j) {
+    for (i = 0; i != BOARD_SIZE; ++i) {
+        for (j = 0; j != BOARD_SIZE; ++j) {
             if (board[i][j] == '_') {
                 // do move
                 board[i][j] = (is_x_move) ? 'X' : 'O';
@@ -78,33 +78,44 @@ bool Game::CanDoMove(const std::string move) const {
 
 GAME_RESULT Game::Result() const {
     int i, j;
+    bool check;
     //rows
-    if (Check(0, 0) && Check(0, 1) && Check(0, 2)) {
-        return (!is_x_move) ? XWIN : OWIN;
-    }
-    if (Check(1, 0) && Check(1, 1) && Check(1, 2)) {
-        return (!is_x_move) ? XWIN : OWIN;
-    }
-    if (Check(2, 0) && Check(2, 1) && Check(2, 2)) {
-        return (!is_x_move) ? XWIN : OWIN;
+    for (i = 0; i != BOARD_SIZE; ++i) {
+        check = true;
+        for (j = 0; j != BOARD_SIZE; ++j) {
+            check = check && Check(i, j);
+        }
+        if (check == true) {
+            return (!is_x_move) ? XWIN : OWIN;
+        }
     }
     //columns
-    if (Check(0, 0) && Check(1, 0) && Check(2, 0)) {
-        return (!is_x_move) ? XWIN : OWIN;
-    }
-    if (Check(0, 1) && Check(1, 1) && Check(2, 1)) {
-        return (!is_x_move) ? XWIN : OWIN;
-    }
-    if (Check(0, 2) && Check(1, 2) && Check(2, 2)) {
-        return (!is_x_move) ? XWIN : OWIN;
+    for (i = 0; i != BOARD_SIZE; ++i) {
+        check = true;
+        for (j = 0; j != BOARD_SIZE; ++j) {
+            check = check && Check(j, i);
+        }
+        if (check == true) {
+            return (!is_x_move) ? XWIN : OWIN;
+        }
     }
     //diagonals
-    if (Check(0, 0) && Check(1, 1) && Check(2, 2)) {
+    check = true;
+    for (i = 0; i != BOARD_SIZE; ++i) {
+        check = check && Check(i, i);
+    }
+    if (check == true) {
         return (!is_x_move) ? XWIN : OWIN;
     }
-    if (Check(0, 2) && Check(1, 1) && Check(2, 0)) {
+    
+    check = true;
+    for (i = 0; i != BOARD_SIZE; ++i) {
+        check = check && Check(i, BOARD_SIZE - i - 1);
+    }
+    if (check == true) {
         return (!is_x_move) ? XWIN : OWIN;
     }
+
     for (i = 0; i != 3; ++i) {
         for (j = 0; j != 3; ++j) {
             if (board[i][j] == '_') {
@@ -129,7 +140,7 @@ void Game::DoMove(const std::string move, int value) {
     }
     db.RegisterGamePosition(this->ToString(), value);
     db.RegisterPosition(this->ToString(), value);
-    if(is_verbose){
+    if (is_verbose) {
         std::cout << "\r\n";
         PrintBoard();
     }
@@ -190,7 +201,7 @@ void Game::PrintStat() {
     // :( or not! do not communicate here with console!!!!
     int x, o, d;
     db.GetStatistic(x, o, d);
-    std::cout << "X wins = " << x 
+    std::cout << "X wins = " << x
             << ", O wins = " << o
             << ", draws = " << d
             << std::endl;
@@ -200,10 +211,10 @@ void Game::Reset() {
     db.Reset();
 }
 
-void Game::Verbose(bool v){
+void Game::Verbose(bool v) {
     is_verbose = v;
 }
 
-bool Game::IsVerbose() const{
+bool Game::IsVerbose() const {
     return is_verbose;
 }

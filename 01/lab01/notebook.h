@@ -23,8 +23,8 @@ public:
 
     void add(const entry& /* new_entry */);
     void remove(std::size_t /* datetime */);
-    void show_all();
-    void show(std::size_t /* index */, std::size_t /* nr */);
+    void show_all() const;
+    void show(std::size_t /* index */, std::size_t /* nr */) const;
     const entry& find(std::string /* pattern */);
     const entry& find(std::size_t /* datetime */);
 };

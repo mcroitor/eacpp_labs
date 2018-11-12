@@ -5,7 +5,7 @@
 
 void notebook::load() {
     std::ifstream fin("notebook.txt");
-    std::copy(std::istream_iterator<entry>(fin), 
+    std::copy(std::istream_iterator<entry>(fin),
             std::istream_iterator<entry>(),
             std::inserter(entries, entries.end()));
 }
@@ -30,34 +30,36 @@ void notebook::add(const entry& new_entry) {
 }
 
 void notebook::remove(std::size_t /* datetime */) {
-    
+
 }
 
-void notebook::show_all() {
+void notebook::show_all() const {
     std::copy(entries.begin(), entries.end(), std::ostream_iterator<entry>(std::cout));
 }
 
-void notebook::show(std::size_t /* index */, std::size_t /* nr */) {
-
+void notebook::show(std::size_t index, std::size_t nr) const {
+    std::copy(entries.begin() + index,
+            entries.begin() + index + nr,
+            std::ostream_iterator<entry>(std::cout));
 }
 
 const entry& notebook::find(std::string pattern) {
     std::deque<entry>::iterator it = std::find_if(
-            entries.begin(), 
-            entries.end(), 
-            [pattern](const entry& e) { 
+            entries.begin(),
+            entries.end(),
+            [pattern](const entry & e) {
                 return (e.header().find(pattern) != e.header().npos) ||
-                    (e.body().find(pattern) != e.body().npos); 
+                        (e.body().find(pattern) != e.body().npos);
             });
     return *it;
 }
 
 const entry& notebook::find(std::size_t datetime) {
     std::deque<entry>::iterator it = std::find_if(
-            entries.begin(), 
-            entries.end(), 
-            [datetime](const entry& e) { 
-                return e.datetime() == datetime; 
+            entries.begin(),
+            entries.end(),
+            [datetime](const entry & e) {
+                return e.datetime() == datetime;
             });
     return *it;
 }

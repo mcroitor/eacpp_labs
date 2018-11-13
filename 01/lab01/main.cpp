@@ -24,19 +24,20 @@ void help();
 void view(const notebook&);
 void add(notebook&);
 void remove(notebook&);
-void search(const notebook);
+const entry& _search(notebook&);
+void search(notebook&);
+std::string trim(std::string);
 
 int main(int argc, char** argv) {
     notebook nb;
-    //    nb.add(entry("new message", "This is a new message.", time(nullptr)));
-    //    nb.add(entry("yet another message", "This is another message.", time(nullptr)));
-    //    nb.show_all();
     std::string command = "help";
     while (command != "exit") {
         if (command == "help") {
             help();
         } else if (command == "view") {
             view(nb);
+        } else if (command == "search") {
+            search(nb);
         } else if (command == "add") {
             add(nb);
         } else {
@@ -44,6 +45,7 @@ int main(int argc, char** argv) {
         }
         std::cout << "> ";
         std::getline(std::cin, command);
+        command = trim(command);
     }
     return 0;
 }
@@ -69,13 +71,51 @@ void add(notebook& nb) {
     std::getline(std::cin, header);
     std::cout << "message: ";
     std::getline(std::cin, message);
-    timestamp = time(NULL);
-    nb.add(entry(header, message, timestamp));
+    timestamp = time(nullptr);
+    nb.add(entry(trim(header), trim(message), timestamp));
 }
 
 void remove(notebook& nb) {
+    std::cout << "Specify entry you want remove: " << std::endl;
+    entry found = _search(nb);
+    if (found == NULL_ENTRY) {
+        std::cout << "entry not found!" << std::endl;
+    } else {
+        nb.remove(found);
+        std::cout << "entry was removed" << std::endl;
+    }
 }
 
-void search(const notebook& nb) {
-    
+const entry& _search(notebook& nb) {
+    std::string pattern;
+    std::cout << "enter string pattern: ";
+    std::getline(std::cin, pattern);
+    return nb.find(trim(pattern));
+}
+
+void search(notebook& nb) {
+    entry found = _search(nb);
+    if (found == NULL_ENTRY) {
+        std::cout << "entry not found!" << std::endl;
+    } else {
+        std::cout << found;
+    }
+}
+
+std::string ltrim(std::string str) {
+    while (str.front() == ' ' || str.front() == '\t') {
+        str.erase(str.begin());
+    }
+    return str;
+}
+
+std::string rtrim(std::string str) {
+    while (str.back() == ' ' || str.back() == '\t') {
+        str.pop_back();
+    }
+    return str;
+}
+
+std::string trim(std::string str) {
+    return ltrim(rtrim(str));
 }

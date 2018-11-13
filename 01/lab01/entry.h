@@ -33,5 +33,7 @@ public:
 std::istream& operator >> (std::istream& /* in */, entry& /* e */);
 std::ostream& operator << (std::ostream& /* out */, const entry& /* e */);
 
+const entry NULL_ENTRY = entry();
+
 #endif /* ENTRY_H */
 

@@ -29,8 +29,8 @@ void notebook::add(const entry& new_entry) {
     entries.push_back(new_entry);
 }
 
-void notebook::remove(std::size_t /* datetime */) {
-
+void notebook::remove(const entry& old_entry) {
+    std::remove(entries.begin(), entries.end(), old_entry);
 }
 
 void notebook::show_all() const {
@@ -51,6 +51,9 @@ const entry& notebook::find(std::string pattern) {
                 return (e.header().find(pattern) != e.header().npos) ||
                         (e.body().find(pattern) != e.body().npos);
             });
+    if (it == entries.end()) {
+        return NULL_ENTRY;
+    }
     return *it;
 }
 

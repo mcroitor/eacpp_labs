@@ -5,6 +5,7 @@
                    displayName="Исходные файлы"
                    projectFiles="true">
       <itemPath>main.cpp</itemPath>
+      <itemPath>properties/property.cpp</itemPath>
       <itemPath>xoxogame.cpp</itemPath>
       <itemPath>xoxoknowledge.cpp</itemPath>
       <itemPath>xoxomove.cpp</itemPath>
@@ -12,6 +13,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Файлы заголовков"
                    projectFiles="true">
+      <itemPath>properties/property.h</itemPath>
       <itemPath>xoxogame.h</itemPath>
       <itemPath>xoxoknowledge.h</itemPath>
       <itemPath>xoxomove.h</itemPath>
@@ -52,6 +54,10 @@
       </compileType>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="properties/property.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="properties/property.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="xoxogame.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="xoxogame.h" ex="false" tool="3" flavor2="0">
@@ -87,6 +93,10 @@
         </asmTool>
       </compileType>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="properties/property.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="properties/property.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="xoxogame.cpp" ex="false" tool="1" flavor2="0">
       </item>

@@ -7,6 +7,7 @@
 
 #include "xoxoknowledge.h"
 #include "xoxomove.h"
+#include "properties/property.h"
 
 #undef DEBUG
 //#define DEBUG
@@ -27,7 +28,7 @@ class Game {
     void Init();    
 public:
 
-    Game();
+    Game(const mc::properties&);
     ~Game();
 
     void NewGame();    

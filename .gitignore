@@ -1,2 +1,6 @@
 **/build/
 **/dist/
+**/obj/
+**/bin/
+xoxo/learning.sqlite
+/01/AnotherExampleService/nbproject/private/

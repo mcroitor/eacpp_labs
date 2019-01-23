@@ -23,7 +23,9 @@ void print_help() {
 }
 
 int main(int argc, char** argv) {
-    Game game;
+    mc::properties p;
+    p.load_properties("config.ini");
+    Game game(p);
     std::string command, line;
     std::deque<std::string> tokens;
     std::cout << "type help for view commands" << std::endl;

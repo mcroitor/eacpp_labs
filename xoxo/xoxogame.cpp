@@ -14,7 +14,7 @@ bool Game::Check(int r, int c) const {
     return tmp == board[r][c];
 }
 
-Game::Game() : is_verbose(false) {
+Game::Game(const mc::properties& p) : is_verbose(false), db(p.get_property("mind")) {
     srand(time(NULL));
     NewGame();
 }

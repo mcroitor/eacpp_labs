@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/properties/property.o \
 	${OBJECTDIR}/xoxogame.o \
 	${OBJECTDIR}/xoxoknowledge.o \
 	${OBJECTDIR}/xoxomove.o
@@ -69,6 +70,11 @@ ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/properties/property.o: properties/property.cpp
+	${MKDIR} -p ${OBJECTDIR}/properties
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -std=c++14 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/properties/property.o properties/property.cpp
 
 ${OBJECTDIR}/xoxogame.o: xoxogame.cpp
 	${MKDIR} -p ${OBJECTDIR}
